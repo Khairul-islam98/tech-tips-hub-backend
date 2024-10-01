@@ -27,7 +27,7 @@ export const paymentService = {
       amount: amount,
       cus_name: 'John Doe',
       tran_id: transactionId,
-      currency: 'BDT',
+      currency: 'USD',
       success_url: `https://car-rental-reservation-system-one.vercel.app/api/payment/confirmation?transactionId=${transactionId}&status=success`,
       fail_url: 'http://www.merchantdomain.com/failedpage.html',
       cancel_url: 'http://www.merchantdomain.com/cancelpage.html',
@@ -100,7 +100,7 @@ const confirmationService = async (transactionId: string, status: string) => {
 
     const userUpdateResult = await User.findOneAndUpdate(
       { _id: userId },
-      { isPremium: true },
+      { isVerified: true },
     );
 
     if (!userUpdateResult) {
