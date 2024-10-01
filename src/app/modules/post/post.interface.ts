@@ -6,6 +6,7 @@ export interface IPost {
   authorId: Types.ObjectId;
   comments: Types.ObjectId[];
   images: string[];
+  category: string;
   isPremium: boolean;
   upvotes?: number;
   downvotes?: number;

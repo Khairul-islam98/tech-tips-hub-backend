@@ -22,12 +22,12 @@ const userSchema = new Schema<IUser, IUserModel>(
     role: {
       type: String,
       enum: Object.keys(USER_ROLE),
-      default: USER_ROLE.USER,
+      default: USER_ROLE.user,
     },
     status: {
       type: String,
       enum: Object.keys(USER_STATUS),
-      default: USER_STATUS.ACTIVE,
+      default: USER_STATUS.active,
     },
     profilePhoto: {
       type: String,
@@ -64,7 +64,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 userSchema.post('save', function (doc, next) {
-  doc.password = '';
+  doc.password! = '';
   next();
 });
 

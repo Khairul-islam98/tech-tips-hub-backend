@@ -1,0 +1,50 @@
+import { model, Schema } from 'mongoose';
+import { IPost } from './post.interface';
+
+const postSchema = new Schema<IPost>(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    authorId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
+    images: {
+      type: [String],
+      default: [],
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    isPremium: {
+      type: Boolean,
+    },
+    upvotes: {
+      type: Number,
+      default: 0,
+    },
+    downvotes: {
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+export const Post = model<IPost>('Post', postSchema);
