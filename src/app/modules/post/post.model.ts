@@ -32,6 +32,7 @@ const postSchema = new Schema<IPost>(
     },
     isPremium: {
       type: Boolean,
+      default: false,
     },
     upvotes: {
       type: Number,

@@ -6,21 +6,26 @@
 
 ## Key Features
 
-- Authentication: The application is secured by JWT authentication method
-- Authorization: Only authorized person can access the protected resources
+- Authentication: The application is secured by JWT authentication method;
+- Authorization: Only authorized person can access the protected resources;
+- Payment-System: User can pay for the premium content;
 
 ### Models:
 
-- User: name, email, role, password, status, profilePhoto, isVerified, followers, following
-- Post: title, description, image, author, category, upvotes, downvotes, comments
-
+- User: name, email, role, password, status, profilePhoto, isVerified, followers, following;
+- Post: title, content, image, authorId, category, upvotes, downvotes, comments, isPremium;
+- Comment: content, authorId, postId;
+- Payment: email, userId, amount, status, transactionId, date;
 
 ### Endpoints:
 
-1. Sign Up: (POST) /api/auth/register
-2. Sign In: (POST) /api/auth/login
-3. Forget Password: (POST) /api/auth/forget-password 
-4. Reset Password: (POST) /api/auth/reset-password
+1. Sign Up: (POST) /api/auth/register;
+2. Sign In: (POST) /api/auth/login;
+3. Forget Password: (POST) /api/auth/forget-password; 
+4. Reset Password: (POST) /api/auth/reset-password;
+5. Post: (POST) /api/post, (GET) /api/post, (GET) /api/post/:id, (PUT) /api/post/:id, (DELETE) /api/post/:id;
+6. Comment: (POST) /api/comment, (PUT) /api/comment/:id, (DELETE) /api/comment/:id;
+7. Payment: (POST) /api/initiate-payment, (POST) /api/confirmation;
 
 
 # How to run the application locally
@@ -55,6 +60,10 @@ BCRYPT_SALT_ROUND=
 RESET_PASS_UI_LINK=
 EMAIL_USER=
 EMAIL_PASS=
+STORE_ID=
+SIGNATURE_KEY=
+PAYMENT_URL=
+PAYMENT_VERIFY_URL=
 ```
 
 5. Run the Application locally

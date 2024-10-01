@@ -13,4 +13,8 @@ export default {
   reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
   email_user: process.env.EMAIL_USER,
   email_pass: process.env.EMAIL_PASS,
+  store_id: process.env.STORE_ID,
+  signature_key: process.env.SIGNATURE_KEY,
+  payment_url: process.env.PAYMENT_URL,
+  payment_verify_url: process.env.PAYMENT_VERIFY_URL,
 };
