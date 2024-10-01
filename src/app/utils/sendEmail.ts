@@ -32,7 +32,7 @@ export const sendEmail = async (to: string, resetLink: string) => {
           If you did not request this, you can safely ignore this email.
         </p>
         <p style="color: #555; font-size: 16px; line-height: 1.5;">
-          This link will expire in 30 minutes for your security.
+          This link will expire in 10 minutes for your security.
         </p>
       </div>
       <div style="margin-top: 30px; text-align: center; color: #777;">

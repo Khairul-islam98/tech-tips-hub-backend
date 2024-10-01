@@ -1,9 +1,9 @@
 export const USER_ROLE = {
-  ADMIN: 'ADMIN',
-  USER: 'USER',
+  ADMIN: 'admin',
+  USER: 'user',
 } as const;
 
 export const USER_STATUS = {
-  ACTIVE: 'ACTIVE',
-  BLOCKED: 'BLOCKED',
+  ACTIVE: 'active',
+  BLOCKED: 'blocked',
 } as const;
