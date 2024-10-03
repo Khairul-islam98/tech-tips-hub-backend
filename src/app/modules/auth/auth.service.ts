@@ -24,7 +24,7 @@ const loginUser = async (payload: ILoginUser) => {
   }
   const userStatus = user?.status;
 
-  if (userStatus === 'BLOCKED') {
+  if (userStatus === 'blocked') {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!');
   }
   if (
@@ -40,6 +40,9 @@ const loginUser = async (payload: ILoginUser) => {
     role: user.role,
     status: user.status,
     profilePhoto: user.profilePhoto,
+    isVerified: user.isVerified,
+    followers: user.followers,
+    following: user.following,
   };
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_secret_expires_in as string,
@@ -54,15 +57,19 @@ const forgetPassword = async (email: string) => {
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'User not found!');
   }
-  if (user.status === 'BLOCKED') {
+  if (user.status === 'blocked') {
     throw new AppError(httpStatus.BAD_REQUEST, `${user.name} you are block`);
   }
 
   const jwtPayload = {
+    _id: user._id,
     name: user.name,
     email: user.email,
     role: user.role,
     status: user.status,
+    isVerified: user.isVerified,
+    followers: user.followers,
+    following: user.following,
   };
 
   const resetToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
@@ -81,7 +88,7 @@ const resetPassword = async (payload: {
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'User not found!');
   }
-  if (user.status === 'BLOCKED') {
+  if (user.status === 'blocked') {
     throw new AppError(httpStatus.BAD_REQUEST, `${user.name} you are block`);
   }
 

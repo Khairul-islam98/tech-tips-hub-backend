@@ -11,7 +11,7 @@ const createPostIntoDB = async (payload: IPost) => {
 
 const getAllPostFromDB = async (query: Record<string, unknown>) => {
   const postQuery = new QueryBuilder(
-    Post.find().populate('authorId').populate('comments'),
+    Post.find().populate('comments').populate('authorId'),
     query,
   ).search(postSeachableFields);
 
@@ -20,7 +20,14 @@ const getAllPostFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSinglePostFromDB = async (id: string) => {
-  const result = await Post.findById(id);
+  const result = await Post.findById(id)
+    .populate('authorId')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+      },
+    });
   return result;
 };
 const getMyPostIntoDB = async (userData: string) => {

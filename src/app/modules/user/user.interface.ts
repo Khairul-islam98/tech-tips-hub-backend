@@ -12,7 +12,7 @@ export interface IUser {
   role: keyof typeof USER_ROLE;
   status: keyof typeof USER_STATUS;
   profilePhoto?: string;
-  isPremium: boolean;
+  isVerified: boolean;
   followers: Types.ObjectId[];
   following: Types.ObjectId[];
 }

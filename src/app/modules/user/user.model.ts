@@ -32,7 +32,7 @@ const userSchema = new Schema<IUser, IUserModel>(
     profilePhoto: {
       type: String,
     },
-    isPremium: {
+    isVerified: {
       type: Boolean,
       default: false,
     },
