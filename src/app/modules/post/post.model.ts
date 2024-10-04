@@ -34,14 +34,20 @@ const postSchema = new Schema<IPost>(
       type: Boolean,
       default: false,
     },
-    upvotes: {
-      type: Number,
-      default: 0,
-    },
-    downvotes: {
-      type: Number,
-      default: 0,
-    },
+    upvotes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: 0,
+      },
+    ],
+    downvotes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: 0,
+      },
+    ],
   },
   {
     timestamps: true,

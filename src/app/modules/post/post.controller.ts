@@ -43,9 +43,32 @@ const getMyPost = catchAsync(async (req, res) => {
   });
 });
 
+const upvotePost = catchAsync(async (req, res) => {
+  const { userId } = req.body;
+  const result = await PostServices.upvotePostDB(req.params.postId, userId);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'upvoted successfully',
+    data: result,
+  });
+});
+const downvotePost = catchAsync(async (req, res) => {
+  const { userId } = req.body;
+  const result = await PostServices.downvotePostDB(req.params.postId, userId);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'upvoted successfully',
+    data: result,
+  });
+});
+
 export const PostControllers = {
   createPost,
   getAllPost,
   getSinglePost,
   getMyPost,
+  upvotePost,
+  downvotePost,
 };

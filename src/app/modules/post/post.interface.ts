@@ -8,6 +8,6 @@ export interface IPost {
   images: string[];
   category: string;
   isPremium: boolean;
-  upvotes?: number;
-  downvotes?: number;
+  upvotes?: Types.ObjectId[];
+  downvotes?: Types.ObjectId[];
 }

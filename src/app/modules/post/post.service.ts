@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { User } from '../user/user.model';
 import { postSeachableFields } from './post.constant';
@@ -41,9 +42,67 @@ const getMyPostIntoDB = async (userData: string) => {
     .populate('authorId');
   return result;
 };
+
+const upvotePostDB = async (postId: string, userId: string, cancel = false) => {
+  const post = await Post.findById(postId);
+  if (!post) {
+    throw new Error('Post not found');
+  }
+
+  if (cancel) {
+    // Cancel the upvote
+    await Post.findByIdAndUpdate(postId, {
+      $pull: { upvotes: new Types.ObjectId(userId) },
+    });
+  } else {
+    // Add the upvote and remove the downvote if it exists
+    if (post?.upvotes?.includes(new Types.ObjectId(userId))) {
+      throw new Error('You have already upvoted this post');
+    }
+
+    await Post.findByIdAndUpdate(postId, {
+      $addToSet: { upvotes: new Types.ObjectId(userId) },
+      $pull: { downvotes: new Types.ObjectId(userId) },
+    });
+  }
+
+  return Post.findById(postId);
+};
+
+const downvotePostDB = async (
+  postId: string,
+  userId: string,
+  cancel = false,
+) => {
+  const post = await Post.findById(postId);
+  if (!post) {
+    throw new Error('Post not found');
+  }
+
+  if (cancel) {
+    // Cancel the downvote
+    await Post.findByIdAndUpdate(postId, {
+      $pull: { downvotes: new Types.ObjectId(userId) },
+    });
+  } else {
+    if (post?.downvotes?.includes(new Types.ObjectId(userId))) {
+      throw new Error('You have already downvoted this post');
+    }
+
+    await Post.findByIdAndUpdate(postId, {
+      $addToSet: { downvotes: new Types.ObjectId(userId) },
+      $pull: { upvotes: new Types.ObjectId(userId) },
+    });
+  }
+
+  return Post.findById(postId);
+};
+
 export const PostServices = {
   createPostIntoDB,
   getAllPostFromDB,
   getSinglePostFromDB,
   getMyPostIntoDB,
+  upvotePostDB,
+  downvotePostDB,
 };

@@ -8,4 +8,7 @@ router.get('/', PostControllers.getAllPost);
 router.get('/:id', PostControllers.getSinglePost);
 router.get('/my-post', PostControllers.getMyPost);
 
+router.post('/:postId/upvote', PostControllers.upvotePost);
+router.post('/:postId/downvote', PostControllers.downvotePost);
+
 export const PostRoutes = router;
