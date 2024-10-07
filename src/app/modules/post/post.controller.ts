@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { PostServices } from './post.service';
 
+// create Post
 const createPost = catchAsync(async (req, res) => {
   const result = await PostServices.createPostIntoDB(req.body);
   sendResponse(res, {
@@ -13,6 +14,7 @@ const createPost = catchAsync(async (req, res) => {
   });
 });
 
+// get all post
 const getAllPost = catchAsync(async (req, res) => {
   const result = await PostServices.getAllPostFromDB(req.query);
   sendResponse(res, {
@@ -22,6 +24,7 @@ const getAllPost = catchAsync(async (req, res) => {
     data: result,
   });
 });
+// get single post
 const getSinglePost = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await PostServices.getSinglePostFromDB(id);
@@ -32,9 +35,35 @@ const getSinglePost = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+//post update
+const updatePost = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await PostServices.updatePostIntoDB(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Post update successfully',
+    data: result,
+  });
+});
+
+// post delete
+const deletePost = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await PostServices.deletePostFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Post deleted successfully',
+    data: result,
+  });
+});
+
+// get my post
 const getMyPost = catchAsync(async (req, res) => {
-  const userData = req?.user?._id;
-  const result = await PostServices.getMyPostIntoDB(userData);
+  const { email } = req.params;
+  const result = await PostServices.getMyPostIntoDB(email);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -43,6 +72,7 @@ const getMyPost = catchAsync(async (req, res) => {
   });
 });
 
+// create upvote
 const upvotePost = catchAsync(async (req, res) => {
   const { userId } = req.body;
   const result = await PostServices.upvotePostDB(req.params.postId, userId);
@@ -53,6 +83,8 @@ const upvotePost = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+// create downvote
 const downvotePost = catchAsync(async (req, res) => {
   const { userId } = req.body;
   const result = await PostServices.downvotePostDB(req.params.postId, userId);
@@ -68,6 +100,8 @@ export const PostControllers = {
   createPost,
   getAllPost,
   getSinglePost,
+  updatePost,
+  deletePost,
   getMyPost,
   upvotePost,
   downvotePost,

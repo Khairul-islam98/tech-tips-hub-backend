@@ -41,8 +41,6 @@ const loginUser = async (payload: ILoginUser) => {
     status: user.status,
     profilePhoto: user.profilePhoto,
     isVerified: user.isVerified,
-    followers: user.followers,
-    following: user.following,
   };
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_secret_expires_in as string,
@@ -68,8 +66,6 @@ const forgetPassword = async (email: string) => {
     role: user.role,
     status: user.status,
     isVerified: user.isVerified,
-    followers: user.followers,
-    following: user.following,
   };
 
   const resetToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {

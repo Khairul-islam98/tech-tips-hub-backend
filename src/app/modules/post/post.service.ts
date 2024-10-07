@@ -31,15 +31,29 @@ const getSinglePostFromDB = async (id: string) => {
     });
   return result;
 };
-const getMyPostIntoDB = async (userData: string) => {
-  const user = await User.findById(userData);
+
+const updatePostIntoDB = async (id: string, payload: Partial<IPost>) => {
+  const result = await Post.findByIdAndUpdate(id, payload, { new: true });
+  return result;
+};
+
+const deletePostFromDB = async (id: string) => {
+  const result = await Post.findByIdAndDelete(id);
+  return result;
+};
+
+const getMyPostIntoDB = async (email: string) => {
+  const user = await User.findOne({ email });
+
   if (!user) {
     throw new Error('User not found');
   }
 
-  const result = await Post.find({ user: userData })
-    .populate('comments')
-    .populate('authorId');
+  const result = await Post.find({ authorId: user._id })
+    .populate('authorId')
+    .populate('comments');
+
+  // Return the posts
   return result;
 };
 
@@ -102,6 +116,8 @@ export const PostServices = {
   createPostIntoDB,
   getAllPostFromDB,
   getSinglePostFromDB,
+  updatePostIntoDB,
+  deletePostFromDB,
   getMyPostIntoDB,
   upvotePostDB,
   downvotePostDB,
