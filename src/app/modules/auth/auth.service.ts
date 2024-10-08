@@ -7,6 +7,7 @@ import config from '../../config';
 import { IUser } from '../user/user.interface';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../../utils/sendEmail';
+import { activityLogService } from '../activitylog/activitylog.service';
 
 const registerUser = async (payload: IUser) => {
   const user = await User.isUserExist(payload.email);
@@ -22,6 +23,7 @@ const loginUser = async (payload: ILoginUser) => {
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
+  await activityLogService.logActivity(user, 'login');
   const userStatus = user?.status;
 
   if (userStatus === 'blocked') {
