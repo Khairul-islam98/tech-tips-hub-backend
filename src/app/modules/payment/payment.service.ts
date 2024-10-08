@@ -129,8 +129,8 @@ const getAllPaymentsFromDB = async () => {
   return payments;
 };
 
-const getMyPaymentsFromDB = async (userId: string) => {
-  const payments = await Payment.find({ userId })
+const getMyPaymentsFromDB = async (email: string) => {
+  const payments = await Payment.find({ email })
     .populate('userId')
     .sort({ createdAt: -1 });
 

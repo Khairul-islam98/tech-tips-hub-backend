@@ -44,8 +44,8 @@ const getAllPayments = catchAsync(async (req, res) => {
 });
 
 const getMyPayment = catchAsync(async (req, res) => {
-  const { userId } = req.params;
-  const result = await paymentServices.getMyPaymentsFromDB(userId);
+  const { email } = req.params;
+  const result = await paymentServices.getMyPaymentsFromDB(email);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

@@ -8,6 +8,6 @@ router.post('/initiate-payment', paymentController.initiatePayment);
 router.post('/confirmation', paymentControler.confirmationController);
 
 router.get('/', paymentControler.getAllPayments);
-router.get('/:userIs', paymentControler.getMyPayment);
+router.get('/:email', paymentControler.getMyPayment);
 
 export const PaymentRoutes = router;
