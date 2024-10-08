@@ -1,12 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Types } from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { User } from '../user/user.model';
 import { postSeachableFields } from './post.constant';
 import { IPost } from './post.interface';
 import { Post } from './post.model';
+import { Notification } from '../notification/notification.model';
 
-const createPostIntoDB = async (payload: IPost) => {
-  const result = await Post.create(payload);
+const createPostIntoDB = async (payload: any, authorId: any) => {
+  const post = { ...payload, authorId };
+
+  const result = await Post.create(post);
+
+  const user = await User.findById(authorId);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const followers = await User.find({ following: authorId });
+
+  const notifications = followers.map((follower) => ({
+    userId: follower._id,
+    type: 'new_post',
+    message: `${user.name} has created a new post: "${result.title}".`,
+    postId: result._id,
+  }));
+
+  if (notifications.length > 0) {
+    await Notification.insertMany(notifications);
+  }
+
   return result;
 };
 
@@ -14,9 +38,12 @@ const getAllPostFromDB = async (query: Record<string, unknown>) => {
   const postQuery = new QueryBuilder(
     Post.find().populate('comments').populate('authorId'),
     query,
-  ).search(postSeachableFields);
+  )
+    .search(postSeachableFields)
+    .filter()
+    .sort();
 
-  const result = await await postQuery.modelQuery;
+  const result = await postQuery.modelQuery;
   return result;
 };
 
@@ -39,6 +66,7 @@ const updatePostIntoDB = async (id: string, payload: Partial<IPost>) => {
 
 const deletePostFromDB = async (id: string) => {
   const result = await Post.findByIdAndDelete(id);
+  await Notification.deleteMany({ postId: id });
   return result;
 };
 

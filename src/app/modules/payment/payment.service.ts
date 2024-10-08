@@ -121,6 +121,15 @@ const confirmationService = async (transactionId: string, status: string) => {
   return template;
 };
 
+const getAllPaymentsFromDB = async () => {
+  const payments = await Payment.find()
+    .populate('userId')
+    .sort({ createdAt: -1 });
+
+  return payments;
+};
+
 export const paymentServices = {
   confirmationService,
+  getAllPaymentsFromDB,
 };

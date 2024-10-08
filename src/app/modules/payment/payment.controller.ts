@@ -2,6 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express';
 import { paymentService, paymentServices } from './payment.service';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
 
 export const paymentController = {
   async initiatePayment(req: Request, res: Response) {
@@ -30,6 +33,17 @@ const confirmationController = async (req: Request, res: Response) => {
   res.send(result);
 };
 
+const getAllPayments = catchAsync(async (req, res) => {
+  const result = await paymentServices.getAllPaymentsFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Payments fetched successfully',
+    data: result,
+  });
+});
+
 export const paymentControler = {
   confirmationController,
+  getAllPayments,
 };

@@ -5,7 +5,14 @@ import { PostServices } from './post.service';
 
 // create Post
 const createPost = catchAsync(async (req, res) => {
-  const result = await PostServices.createPostIntoDB(req.body);
+  const { authorId, ...postData } = req.body;
+
+  if (!authorId) {
+    return res.status(400).json({ message: 'Author ID is required' });
+  }
+
+  const result = await PostServices.createPostIntoDB(postData, authorId);
+
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,

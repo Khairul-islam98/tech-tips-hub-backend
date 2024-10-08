@@ -7,4 +7,6 @@ router.post('/initiate-payment', paymentController.initiatePayment);
 
 router.post('/confirmation', paymentControler.confirmationController);
 
+router.get('/', paymentControler.getAllPayments);
+
 export const PaymentRoutes = router;
