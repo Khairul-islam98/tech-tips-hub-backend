@@ -129,7 +129,16 @@ const getAllPaymentsFromDB = async () => {
   return payments;
 };
 
+const getMyPaymentsFromDB = async (userId: string) => {
+  const payments = await Payment.find({ userId })
+    .populate('userId')
+    .sort({ createdAt: -1 });
+
+  return payments;
+};
+
 export const paymentServices = {
   confirmationService,
   getAllPaymentsFromDB,
+  getMyPaymentsFromDB,
 };

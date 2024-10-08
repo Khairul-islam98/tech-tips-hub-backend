@@ -28,6 +28,7 @@
 7. Payment: (POST) /api/initiate-payment, (POST) /api/confirmation;
 8. User: (GET) /api/users/:email, (PUT) /api/users/:email, (POST) /api/users/follow, (POST) /api/users/unfollow;
 9. Notification: (GET) /api/notification/:userId, (DELETE) /api/notification/:userId/:postId;
+10. Anaylatics: 
 
 
 # How to run the application locally
