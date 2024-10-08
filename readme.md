@@ -15,6 +15,7 @@
 - Post: title, content, image, authorId, category, upvotes, downvotes, comments, isPremium;
 - Comment: content, authorId, postId;
 - Payment: email, userId, amount, status, transactionId, date;
+- Notification: userId, postId, message, type;
 
 ### Endpoints:
 
@@ -26,6 +27,7 @@
 6. Comment: (POST) /api/comment, (PUT) /api/comment/:id, (DELETE) /api/comment/:id;
 7. Payment: (POST) /api/initiate-payment, (POST) /api/confirmation;
 8. User: (GET) /api/users/:email, (PUT) /api/users/:email, (POST) /api/users/follow, (POST) /api/users/unfollow;
+9. Notification: (GET) /api/notification/:userId, (DELETE) /api/notification/:userId/:postId;
 
 
 # How to run the application locally
