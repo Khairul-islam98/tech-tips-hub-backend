@@ -10,7 +10,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ['https://tech-tips-hub.vercel.app', 'http://localhost:3000'],
+    origin: [
+      'https://tech-tips-hub.vercel.app',
+      'https://www.techtipshub.tech',
+      'http://localhost:3000',
+    ],
   }),
 );
 
