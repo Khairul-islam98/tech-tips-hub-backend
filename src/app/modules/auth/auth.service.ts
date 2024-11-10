@@ -18,11 +18,62 @@ const registerUser = async (payload: IUser) => {
   return result;
 };
 
+const socialLogin = async (payload: ILoginUser) => {
+  const user = await User.findOne({ email: payload.email });
+  if (!user) {
+    const userPayload: IUser = {
+      ...payload,
+      role: 'user',
+      status: 'active',
+      isVerified: false,
+      profilePhoto: payload.profilePhoto || '',
+      followers: [],
+      following: [],
+      password: payload.password || '',
+    };
+    const user = await registerUser(userPayload);
+    const jwtPayload = {
+      email: user.email,
+      role: user.role,
+    };
+    const accessToken = jwt.sign(
+      jwtPayload,
+      config.jwt_access_secret as string,
+      {
+        expiresIn: config.jwt_access_secret_expires_in as string,
+      },
+    );
+
+    return {
+      user,
+      accessToken,
+    };
+  } else {
+    const jwtPayload = {
+      email: user.email,
+      role: user.role,
+    };
+    const accessToken = jwt.sign(
+      jwtPayload,
+      config.jwt_access_secret as string,
+      {
+        expiresIn: config.jwt_access_secret_expires_in as string,
+      },
+    );
+
+    return {
+      user,
+      accessToken,
+    };
+  }
+};
+
 const loginUser = async (payload: ILoginUser) => {
   const user = await User.isUserExist(payload.email);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
+
   await activityLogService.logActivity(user, 'login');
   const userStatus = user?.status;
 
@@ -114,4 +165,5 @@ export const AuthServices = {
   loginUser,
   forgetPassword,
   resetPassword,
+  socialLogin,
 };
